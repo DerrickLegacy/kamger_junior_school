@@ -97,7 +97,7 @@ class UserController extends Controller
         }
 
         $user = $this->user->create($data); // Create User
-
+        //dd( $user);
         /* CREATE STAFF RECORD */
         if($user_is_staff){
             $d2 = $req->only(Qs::getStaffRecord());
