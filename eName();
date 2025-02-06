@@ -1,0 +1,96 @@
+[90m= [39m[
+    {#6071
+      +"[1mTables_in_homestead[22m": "[32mblood_groups[39m",
+    },
+    {#6072
+      +"[1mTables_in_homestead[22m": "[32mbook_requests[39m",
+    },
+    {#6073
+      +"[1mTables_in_homestead[22m": "[32mbooks[39m",
+    },
+    {#6074
+      +"[1mTables_in_homestead[22m": "[32mclass_types[39m",
+    },
+    {#6069
+      +"[1mTables_in_homestead[22m": "[32mdorms[39m",
+    },
+    {#6068
+      +"[1mTables_in_homestead[22m": "[32mexam_records[39m",
+    },
+    {#6067
+      +"[1mTables_in_homestead[22m": "[32mexams[39m",
+    },
+    {#6066
+      +"[1mTables_in_homestead[22m": "[32mgrades[39m",
+    },
+    {#6065
+      +"[1mTables_in_homestead[22m": "[32mlgas[39m",
+    },
+    {#6064
+      +"[1mTables_in_homestead[22m": "[32mmarks[39m",
+    },
+    {#6063
+      +"[1mTables_in_homestead[22m": "[32mmigrations[39m",
+    },
+    {#6062
+      +"[1mTables_in_homestead[22m": "[32mmy_classes[39m",
+    },
+    {#6087
+      +"[1mTables_in_homestead[22m": "[32mnationalities[39m",
+    },
+    {#6088
+      +"[1mTables_in_homestead[22m": "[32mpassword_resets[39m",
+    },
+    {#6086
+      +"[1mTables_in_homestead[22m": "[32mpayment_records[39m",
+    },
+    {#6095
+      +"[1mTables_in_homestead[22m": "[32mpayments[39m",
+    },
+    {#6096
+      +"[1mTables_in_homestead[22m": "[32mpins[39m",
+    },
+    {#6097
+      +"[1mTables_in_homestead[22m": "[32mpromotions[39m",
+    },
+    {#6098
+      +"[1mTables_in_homestead[22m": "[32mreceipts[39m",
+    },
+    {#6099
+      +"[1mTables_in_homestead[22m": "[32msections[39m",
+    },
+    {#6100
+      +"[1mTables_in_homestead[22m": "[32msettings[39m",
+    },
+    {#6101
+      +"[1mTables_in_homestead[22m": "[32mskills[39m",
+    },
+    {#6092
+      +"[1mTables_in_homestead[22m": "[32mstaff_records[39m",
+    },
+    {#6102
+      +"[1mTables_in_homestead[22m": "[32mstates[39m",
+    },
+    {#6103
+      +"[1mTables_in_homestead[22m": "[32mstudent_records[39m",
+    },
+    {#6104
+      +"[1mTables_in_homestead[22m": "[32msubjects[39m",
+    },
+    {#6105
+      +"[1mTables_in_homestead[22m": "[32mtime_slots[39m",
+    },
+    {#6106
+      +"[1mTables_in_homestead[22m": "[32mtime_table_records[39m",
+    },
+    {#6107
+      +"[1mTables_in_homestead[22m": "[32mtime_tables[39m",
+    },
+    {#6108
+      +"[1mTables_in_homestead[22m": "[32muser_types[39m",
+    },
+    {#6109
+      +"[1mTables_in_homestead[22m": "[32musers[39m",
+    },
+  ]
+
