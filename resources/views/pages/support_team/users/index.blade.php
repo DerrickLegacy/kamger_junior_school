@@ -9,83 +9,23 @@
         </div>
 
         <div class="card-body">
-        <ul class="nav nav-tabs nav-tabs-highlight">
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Manage Users</a>
-        <div class="dropdown-menu dropdown-menu-right">
-        @foreach($user_types as $index => $ut)
-                <a href="#ut-{{ Qs::hash($ut->id) }}" class="dropdown-item {{ $loop->first ? 'active' : '' }}" data-toggle="tab">
-                    {{ $ut->name }}s
-                </a>
-            @endforeach
-        </div>
-    </li>
-    <li class="nav-item">
-        <a href="#new-user" class="nav-link" data-toggle="tab">Create New User</a>
-    </li>
-</ul>
-
+            <ul class="nav nav-tabs nav-tabs-highlight">
+                <li class="nav-item"><a href="#new-user" class="nav-link active" data-toggle="tab">Create New User</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Manage Users</a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        @foreach($user_types as $ut)
+                            <a href="#ut-{{ Qs::hash($ut->id) }}" class="dropdown-item" data-toggle="tab">{{ $ut->name }}s</a>
+                        @endforeach
+                    </div>
+                </li>
+            </ul>
 
             <div class="tab-content">
-                @foreach($user_types as $ut)
-                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="ut-{{Qs::hash($ut->id)}}">
-                <h6>{{ $ut->name }} Users</h6>                       
-                            <table class="table datatable-button-html5-columns">
-                            <thead>
-                            <tr>
-                                <th>S/N</th>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Username</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($users->where('user_type', $ut->title) as $u)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ $u->photo }}" alt="photo"></td>
-                                    <td>{{ $u->name }}</td>
-                                    <td>{{ $u->username }}</td>
-                                    <td>{{ $u->phone }}</td>
-                                    <td>{{ $u->email }}</td>
-                                    <td class="text-center">
-                                        <div class="list-icons">
-                                            <div class="dropdown">
-                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                                    <i class="icon-menu9"></i>
-                                                </a>
-
-                                                <div class="dropdown-menu dropdown-menu-left">
-                                                    {{--View Profile--}}
-                                                    <a href="{{ route('users.show', Qs::hash($u->id)) }}" class="dropdown-item"><i class="icon-eye"></i> View Profile</a>
-                                                    {{--Edit--}}
-                                                    <a href="{{ route('users.edit', Qs::hash($u->id)) }}" class="dropdown-item"><i class="icon-pencil"></i> Edit</a>
-                                                @if(Qs::userIsSuperAdmin())
-
-                                                        <a href="{{ route('users.reset_pass', Qs::hash($u->id)) }}" class="dropdown-item"><i class="icon-lock"></i> Reset password</a>
-                                                        {{--Delete--}}
-                                                        <a id="{{ Qs::hash($u->id) }}" onclick="confirmDelete(this.id)" href="#" class="dropdown-item"><i class="icon-trash"></i> Delete</a>
-                                                        <form method="post" id="item-delete-{{ Qs::hash($u->id) }}" action="{{ route('users.destroy', Qs::hash($u->id)) }}" class="hidden">@csrf @method('delete')</form>
-                                                @endif
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @endforeach
-
-                <div class="tab-pane fade  " id="new-user">
+                <div class="tab-pane fade show active" id="new-user">
                     <form method="post" enctype="multipart/form-data" class="wizard-form steps-validation ajax-store" action="{{ route('users.store') }}" data-fouc>
                         @csrf
-                  <h6>Personal Data</h6>
+                    <h6>Personal Data</h6>
                         <fieldset>
                             <div class="row">
                                 <div class="col-md-2">
@@ -99,7 +39,7 @@
                                     </div>
                                 </div>
 
-                                 <div class="col-md-4">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Full Name: <span class="text-danger">*</span></label>
                                         <input value="{{ old('name') }}" required type="text" name="name" placeholder="Full Name" class="form-control">
@@ -228,11 +168,66 @@
                                     </div>
                                 </div>
                             </div>
+
                         </fieldset>
+
 
 
                     </form>
                 </div>
+
+                @foreach($user_types as $ut)
+                    <div class="tab-pane fade" id="ut-{{Qs::hash($ut->id)}}">                         <table class="table datatable-button-html5-columns">
+                            <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($users->where('user_type', $ut->title) as $u)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ $u->photo }}" alt="photo"></td>
+                                    <td>{{ $u->name }}</td>
+                                    <td>{{ $u->username }}</td>
+                                    <td>{{ $u->phone }}</td>
+                                    <td>{{ $u->email }}</td>
+                                    <td class="text-center">
+                                        <div class="list-icons">
+                                            <div class="dropdown">
+                                                <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                    <i class="icon-menu9"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-left">
+                                                    {{--View Profile--}}
+                                                    <a href="{{ route('users.show', Qs::hash($u->id)) }}" class="dropdown-item"><i class="icon-eye"></i> View Profile</a>
+                                                    {{--Edit--}}
+                                                    <a href="{{ route('users.edit', Qs::hash($u->id)) }}" class="dropdown-item"><i class="icon-pencil"></i> Edit</a>
+                                                @if(Qs::userIsSuperAdmin())
+
+                                                        <a href="{{ route('users.reset_pass', Qs::hash($u->id)) }}" class="dropdown-item"><i class="icon-lock"></i> Reset password</a>
+                                                        {{--Delete--}}
+                                                        <a id="{{ Qs::hash($u->id) }}" onclick="confirmDelete(this.id)" href="#" class="dropdown-item"><i class="icon-trash"></i> Delete</a>
+                                                        <form method="post" id="item-delete-{{ Qs::hash($u->id) }}" action="{{ route('users.destroy', Qs::hash($u->id)) }}" class="hidden">@csrf @method('delete')</form>
+                                                @endif
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endforeach
 
             </div>
         </div>
