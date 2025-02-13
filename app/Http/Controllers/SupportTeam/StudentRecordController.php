@@ -54,6 +54,12 @@ class StudentRecordController extends Controller
     {
         $data =  $req->only(Qs::getUserRecord());
         $sr =  $req->only(Qs::getStudentData());
+        // Validate the request to ensure an image is uploaded
+        \Log::info('$req->file(photo): ' . $req->file('photo'));
+
+        $req->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
         $ct = $this->my_class->findTypeByClass($req->my_class_id)->code;
         /* $ct = ($ct == 'J') ? 'JSS' : $ct;
@@ -63,26 +69,46 @@ class StudentRecordController extends Controller
         $data['name'] = ucwords($req->name);
         $data['code'] = strtoupper(Str::random(10));
         $data['password'] = Hash::make('student');
-        $data['photo'] = Qs::getDefaultUserImage();
+        $photo = $req->file('photo');
         $adm_no = $req->adm_no;
         $data['username'] = strtoupper(Qs::getAppCode() . '/' . $ct . '/' . $sr['year_admitted'] . '/' . ($adm_no ?: mt_rand(1000, 99999)));
 
         if ($req->hasFile('photo')) {
-            $photo = $req->file('photo');
-            $f = Qs::getFileMetaData($photo);
-            $f['name'] = 'photo.' . $f['ext'];
-            $f['path'] = $photo->storeAs(Qs::getUploadPath('student') . $data['code'], $f['name']);
-            $data['photo'] = asset('storage/' . $f['path']);
+            // $photo = $req->file('photo');
+            // $f = Qs::getFileMetaData($photo);
+            // $fileContent = base64_encode($photo->get());
+            // // Convert the image to binary data
+            // $photo_data = file_get_contents($photo->getRealPath());
+
+
+            $file = $req->file('photo');
+            $photo = time() . $file->getClientOriginalName();
+            $file->move(public_path() . "/uploads/profile/", $photo);
+
+
+            // \Log::info('Photo File Data:', ['photo' => $photo]);
+            // $f['name'] = 'photo.' . $f['ext'];
+            // $f['path'] = $req->file('photo')->storeAs(Qs::getUploadPath('student') . $data['code'], $f['name']);
+            $sr['photo'] =  $photo;
+            $data['photo'] = $photo;
+
+            \Log::info('Photo File Data:', ['photo' => $photo]);
         }
 
-        $user = $this->user->create($data); // Create User
 
+        $user = $this->user->create($data); // Create User
         $sr['adm_no'] = $data['username'];
         $sr['user_id'] = $user->id;
         $sr['session'] = Qs::getSetting('current_session');
+        \Log::info('SR File Array:', ['photo' => $sr]);
 
         $this->student->createRecord($sr); // Create Student
         return Qs::jsonStoreOk();
+    }
+
+    public function listPage()
+    {
+        return view('pages.support_team.students.list');
     }
 
     public function listByClass($class_id)

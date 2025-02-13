@@ -23,7 +23,9 @@ class CreateUsersTable extends Migration
             $table->string('user_type');
             $table->string('dob')->nullable();
             $table->string('gender')->nullable();
-            $table->string('photo')->default(Qs::getDefaultUserImage());
+            // $table->string('photo')->default(Qs::getDefaultUserImage());
+            // $table->binary('photo')->nullable();
+            $table->string('photo')->nullable();
             $table->string('phone')->nullable();
             $table->string('phone2')->nullable();
             $table->unsignedInteger('bg_id')->nullable();
