@@ -38,7 +38,10 @@ class UserController extends Controller
         $d['users'] = $this->user->getPTAUsers();
         $d['nationals'] = $this->loc->getAllNationals();
         $d['blood_groups'] = $this->user->getBloodGroups();
+       // dd($d['users']);
+
         return view('pages.support_team.users.index', $d);
+        
     }
 
     public function edit($id)
@@ -88,7 +91,7 @@ class UserController extends Controller
             $f = Qs::getFileMetaData($photo);
             $f['name'] = 'photo.' . $f['ext'];
             $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type).$data['code'], $f['name']);
-            $data['photo'] = asset('storage/' . $f['path']);
+            $data['photo'] = 'uploads/' . $user_type . '/' . $data['code'] . '/' . $f['name'];
         }
 
         /* Ensure that both username and Email are not blank*/
@@ -151,7 +154,7 @@ class UserController extends Controller
             $d2['code'] = $data['username'];
             $this->user->updateStaffRecord(['user_id' => $id], $d2);
         }
-
+        dd($user->toArray());
         return Qs::jsonUpdateOk();
     }
 
