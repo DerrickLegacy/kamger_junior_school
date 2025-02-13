@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('page_title', 'Admit Student')
+@section('page_title', 'Student Admission Form')
 @section('content')
 <div class="card">
     <div class="card-header bg-white header-elements-inline">
@@ -60,7 +60,6 @@
                         <input value="{{ old('phone2') }}" type="text" name="phone2" class="form-control" placeholder="">
                     </div>
                 </div>
-
             </div>
 
             <div class="row">
@@ -85,7 +84,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <label for="state_id">State: <span class="text-danger">*</span></label>
+                    <label for="state_id">District: <span class="text-danger">*</span></label>
                     <select onchange="getLGA(this.value)" required data-placeholder="Choose.." class="select-search form-control" name="state_id" id="state_id">
                         <option value=""></option>
                        @foreach($districts as $st)
@@ -93,13 +92,13 @@
                         @endforeach
                     </select>
                 </div>
- 
-                <div class="col-md-3">
+
+                <!-- <div class="col-md-3">
                     <label for="lga_id">LGA: <span class="text-danger">*</span></label>
                     <select required data-placeholder="Select State First" class="select-search form-control" name="lga_id" id="lga_id">
                         <option value=""></option>
                     </select>
-                </div>
+                </div> -->
             </div>
             <div class="row">
 

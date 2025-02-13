@@ -44,4 +44,14 @@ class HomeController extends Controller
 
         return view('pages.support_team.dashboard', $d);
     }
+
+    public function list()
+    {
+        $d=[];
+        if(Qs::userIsTeamSAT()){
+            $d['users'] = $this->user->getAll();
+        }
+
+        return view('pages.support_team.students.list');
+    }
 }

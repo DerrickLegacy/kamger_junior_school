@@ -31,7 +31,7 @@ class UserRequest extends FormRequest
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
             'address' => 'required|string|min:6|max:120',
             'state_id' => 'required',
-            'lga_id' => 'nullable',
+            // 'lga_id' => 'required',
             'nal_id' => 'required',
         ];
         $update =  [
@@ -43,7 +43,7 @@ class UserRequest extends FormRequest
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
             'address' => 'required|string|min:6|max:120',
             'state_id' => 'required',
-            'lga_id' => 'nullable',
+            // 'lga_id' => 'required',
             'nal_id' => 'required',
         ];
         return ($this->method() === 'POST') ? $store : $update;
@@ -54,7 +54,7 @@ class UserRequest extends FormRequest
         return  [
             'nal_id' => 'Nationality',
             'state_id' => 'State',
-            'lga_id' => 'LGA',
+            // 'lga_id' => 'LGA',
             'user_type' => 'User',
             'phone2' => 'Telephone',
         ];
@@ -68,7 +68,6 @@ class UserRequest extends FormRequest
             $input['user_type'] = Qs::decodeHash($input['user_type']);
 
             $this->getInputSource()->replace($input);
-
         }
 
         if($this->method() === 'PUT'){

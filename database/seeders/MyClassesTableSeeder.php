@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\ClassType;
@@ -19,19 +20,18 @@ class MyClassesTableSeeder extends Seeder
         $ct = ClassType::pluck('id')->all();
 
         $data = [
-            ['name' => 'Nursery 1', 'class_type_id' => $ct[2]],
-            ['name' => 'Nursery 2', 'class_type_id' => $ct[2]],
-            ['name' => 'Nursery 3', 'class_type_id' => $ct[2]],
-            ['name' => 'Primary 1', 'class_type_id' => $ct[3]],
-            ['name' => 'Primary 2', 'class_type_id' => $ct[3]],
-            ['name' => 'JSS 2', 'class_type_id' => $ct[4]],
-            ['name' => 'JSS 3', 'class_type_id' => $ct[4]],
-            ['name' => 'SSS 1', 'class_type_id' => $ct[5]],
-            ['name' => 'SSS 2', 'class_type_id' => $ct[5]],
-            ['name' => 'SSS 3', 'class_type_id' => $ct[5]],
-            ];
+            ['name' => 'Baby', 'class_type_id' => $ct[2]],
+            ['name' => 'Top', 'class_type_id' => $ct[2]],
+            ['name' => 'P1', 'class_type_id' => $ct[2]],
+            ['name' => 'P2', 'class_type_id' => $ct[3]],
+            ['name' => 'P3', 'class_type_id' => $ct[3]],
+            ['name' => 'P4', 'class_type_id' => $ct[4]],
+            ['name' => 'p5', 'class_type_id' => $ct[4]],
+            ['name' => 'P6', 'class_type_id' => $ct[5]],
+            ['name' => 'P7', 'class_type_id' => $ct[5]],
+            ['name' => 'P8', 'class_type_id' => $ct[5]],
+        ];
 
         DB::table('my_classes')->insert($data);
-
     }
 }
