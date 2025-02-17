@@ -204,6 +204,7 @@ class PaymentController extends Controller
         $data = $req->all();
         $data['year'] = $this->year;
         $data['ref_no'] = Pay::genRefCode();
+        $data['term'] = $req->input('term');
         $this->pay->create($data);
 
         return Qs::jsonStoreOk();
