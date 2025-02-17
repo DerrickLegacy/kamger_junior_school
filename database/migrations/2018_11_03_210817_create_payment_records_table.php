@@ -15,6 +15,7 @@ class CreatePaymentRecordsTable extends Migration
     {
         Schema::create('payment_records', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('date')->default(DB::raw('CURRENT_DATE')); // Set default to current date
             $table->unsignedInteger('payment_id');
             $table->unsignedInteger('student_id');
             $table->string('ref_no', 100)->unique()->nullable();

@@ -19,5 +19,6 @@
 {{-- Core JS files --}}
 <script src="{{ asset('global_assets/js/main/jquery.min.js') }} "></script>
 <script src="{{ asset('global_assets/js/main/bootstrap5.3.js') }} "></script>
+<script src="{{ asset('global_assets/js/datatables/datatable.js') }} "></script>
 <script src="{{ asset('global_assets/js/main/bootstrap.bundle.min.js') }} "></script>
 <script src="{{ asset('global_assets/js/plugins/loaders/blockui.min.js') }} "></script>

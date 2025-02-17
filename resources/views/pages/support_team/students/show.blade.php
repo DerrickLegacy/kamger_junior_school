@@ -117,34 +117,30 @@
                                 <label for="parent_phone" class="form-label">Parent Phone</label>
                                 <input type="text" class="form-control" value="{{ $sr->my_parent->phone }}" readonly>
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="parent_phone" class="form-label">Parent Phone</label>
+                                <input type="text" class="form-control" value="{{ $sr->id }}" readonly>
+                            </div>
                         </div>
                     </div>
 
                     <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
                         <h5 class="mb-3 text-primary"><strong>Payment History</strong></h5>
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered">
-                                <thead class="table-dark">
+                            <table id="student_payments" class="table table-striped table-bordered">
+                                <thead>
                                     <tr>
                                         <th>Date</th>
                                         <th>Term</th>
                                         <th>Amount</th>
                                         <th>Method</th>
                                         <th>Receipt Number</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <!-- Example row; replace with your dynamic rows -->
-                                    <tr>
-                                        <td>2024-02-01</td>
-                                        <td>Term 1</td>
-                                        <td>UGX 200,000</td>
-                                        <td>Cash</td>
-                                        <td>R12345</td>
-                                    </tr>
-                                    <!-- Add more rows here -->
-                                </tbody>
-                            </table>
+                                <tbody></tbody>
+                            </table>    
+
                         </div>
                     </div>
                 </div>
@@ -152,4 +148,86 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        student_id = "<?php echo $sr->user->id ?>";
+console.log(student_id);
+        $('#student_payments').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "/payments/get_student_payments",
+                type: 'POST',
+                data: function(d) {
+                    d.student_id = "<?php echo $sr->user->id ?>";
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                error: function(xhr, error, thrown) {
+                    console.error("AJAX Error:", xhr, error, thrown);
+                    alert("An error occurred while loading data: " + xhr.status + " " + thrown);
+                }
+            },
+            columns: [{
+                    data: 'date',
+                    name: 'date'
+                },
+                {
+                    data: 'term',
+                    name: 'term'
+                },
+                {
+                    data: 'amount',
+                    name: 'amount'
+                },
+                {
+                    data: 'method',
+                    name: 'method'
+                },
+                {
+                    data: 'receipt_no',
+                    name: 'receipt_no'
+                },
+                {
+                    data: 'actions',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        // Handle actions (View, Edit, Delete)
+        $('#student_payments').on('click', '.view-btn', function() {
+            let paymentId = $(this).data('id');
+            window.location.href = '/payments/view/' + paymentId;
+        });
+
+        $('#student_payments').on('click', '.edit-btn', function() {
+            let paymentId = $(this).data('id');
+            window.location.href = '/payments/edit/' + paymentId;
+        });
+
+        $('#student_payments').on('click', '.delete-btn', function() {
+            let paymentId = $(this).data('id');
+            if (confirm('Are you sure you want to delete this payment?')) {
+                $.ajax({
+                    url: '/payments/delete/' + paymentId,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        alert(response.message);
+                        $('#student_payments').DataTable().ajax.reload();
+                    },
+                    error: function(xhr) {
+                        alert("Error deleting payment: " + xhr.status);
+                    }
+                });
+            }
+        });
+    });
+</script>
 @endsection
