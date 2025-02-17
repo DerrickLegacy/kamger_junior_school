@@ -9,8 +9,11 @@
     <meta name="author" content="CJ Inspired">
 
     <title> @yield('page_title') | {{ config('app.name') }} </title>
-
     @include('partials.inc_top')
+
+    <title>@yield('page_title')</title>
+    @yield('custom_css')  
+
 </head>
 
 <body class="{{ in_array(Route::currentRouteName(), ['payments.invoice', 'marks.tabulation', 'marks.show', 'ttr.manage', 'ttr.show']) ? 'sidebar-xs' : '' }}">

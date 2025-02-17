@@ -8,16 +8,74 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Payment\PaymentCreate;
 use App\Http\Requests\Payment\PaymentUpdate;
 use App\Models\Setting;
+use App\Models\Paymentss;
 use App\Repositories\MyClassRepo;
 use App\Repositories\PaymentRepo;
 use App\Repositories\StudentRepo;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 
 class PaymentController extends Controller
 {
+
+    public function record(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'payment_type' => 'required|string',
+            'receipt_number' => 'required|numeric|digits:5',
+            'payment_date' => 'required|date',
+            'student_id' => 'nullable|string',
+            'amount' => 'required|numeric|min:0',
+            'balance' => 'nullable|numeric|min:0',
+            'method' => 'required|string',
+            'discription' => 'nullable|string', 
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        //check if payment record already exists
+        $existingPayment = Paymentss::where('payment_type', $request->payment_type)
+                                ->where('receipt_number', $request->receipt_number)
+                                ->first();
+        
+        if ($existingPayment){
+            return redirect()->back()->with('error', 'Payment already exists');
+        }
+
+        //save data to database
+        $payment = new Paymentss();
+        $payment->payment_type = request->input('payment_type');
+        $payment->receipt_number = request->input('receipt_number');
+        $payment->payment_date = request->input('payment_date');
+        $payment->receipt_number = request->input('receipt_number');    
+        $payment->student_id = request->input('student_id');
+        $payment->amount = request->input('amount');
+        $payment->balance = request->input('balance');
+        $payment->payment_method = request->input('method');
+        $payment->discription = request->input('discription');
+        // Automatically set the logged-in user's ID
+        $payment->recorded_by = Auth::id(); 
+
+        $payment->save();
+
+        return redirect()->back()->with('success', 'Payment recorded successfully');
+    
+    }
+
+    public function manage(Request $request){
+        dd(Paymentss::all());
+        $payments = Paymentss::all();
+        return view('pages.support_team.payments.index', compact('payments'));
+
+    }
+
+
+
     protected $my_class, $pay, $student, $year;
 
     public function __construct(MyClassRepo $my_class, PaymentRepo $pay, StudentRepo $student)
@@ -38,22 +96,22 @@ class PaymentController extends Controller
         return view('pages.support_team.payments.index', $d);
     }
 
-    public function show($year)
-    {
-        $d['payments'] = $p = $this->pay->getPayment(['year' => $year])->get();
+    // public function show($year)
+    // {
+    //     $d['payments'] = $p = $this->pay->getPayment(['year' => $year])->get();
 
-        if(($p->count() < 1)){
-            return Qs::goWithDanger('payments.index');
-        }
+    //     if(($p->count() < 1)){
+    //         return Qs::goWithDanger('payments.index');
+    //     }
 
-        $d['selected'] = true;
-        $d['my_classes'] = $this->my_class->all();
-        $d['years'] = $this->pay->getPaymentYears();
-        $d['year'] = $year;
+    //     $d['selected'] = true;
+    //     $d['my_classes'] = $this->my_class->all();
+    //     $d['years'] = $this->pay->getPaymentYears();
+    //     $d['year'] = $year;
 
-        return view('pages.support_team.payments.index', $d);
+    //     return view('pages.support_team.payments.index', $d);
 
-    }
+    // }
 
     public function select_year(Request $req)
     {
@@ -153,22 +211,23 @@ class PaymentController extends Controller
         return Qs::jsonUpdateOk();
     }
 
-    public function manage($class_id = NULL)
-    {
-        $d['my_classes'] = $this->my_class->all();
-        $d['selected'] = false;
+    // public function manage($class_id = NULL)
+    // {
+    //     $d['my_classes'] = $this->my_class->all();
+    //     $d['selected'] = false;
 
-        if($class_id){
-            $d['students'] = $st = $this->student->getRecord(['my_class_id' => $class_id])->get()->sortBy('user.name');
-            if($st->count() < 1){
-                return Qs::goWithDanger('payments.manage');
-            }
-            $d['selected'] = true;
-            $d['my_class_id'] = $class_id;
-        }
+    //     if($class_id){
+    //         $d['students'] = $st = $this->student->getRecord(['my_class_id' => $class_id])->get()->sortBy('user.name');
+    //         if($st->count() < 1){
+    //             return Qs::goWithDanger('payments.manage');
+    //         }
+    //         $d['selected'] = true;
+    //         $d['my_class_id'] = $class_id;
+    //     }
 
-        return view('pages.support_team.payments.manage', $d);
-    }
+    //     return view('pages.support_team.payments.manage', $d);
+    // }
+    
 
     public function select_class(Request $req)
     {

@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\SupportTeam\PaymentController;
 
 Auth::routes();
 
@@ -83,8 +84,14 @@ Route::group(['middleware' => 'auth'], function () {
 
         /*************** Payments *****************/
         Route::group(['prefix' => 'payments'], function(){
+            
+            //route for handling recording payment form submission
+            Route::post('/create', [PaymentController::class, 'record'])->name('payments.record');  
+            Route::get('/', [PaymentController::class, 'manage'])->name('payments.manage');  
 
-            Route::get('manage/{class_id?}', 'PaymentController@manage')->name('payments.manage');
+ 
+
+            //Route::get('manage/{class_id?}', 'PaymentController@manage')->name('payments.manage');
             Route::get('invoice/{id}/{year?}', 'PaymentController@invoice')->name('payments.invoice');
             Route::get('receipts/{id}', 'PaymentController@receipts')->name('payments.receipts');
             Route::get('pdf_receipts/{id}', 'PaymentController@pdf_receipts')->name('payments.pdf_receipts');
