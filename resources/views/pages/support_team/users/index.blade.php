@@ -47,7 +47,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-    <img class="rounded-circle" style="height: 40px; width: 40px;" src="{{$u->photo }}" alt="photo">
+    <img class="rounded-circle" style="height: 40px; width: 40px;" src="{{asset($u->photo) }}" alt="photo">
 </td>
                                    <td>{{ $u->name }}</td>
                                     <td>{{ $u->username }}</td>
@@ -113,14 +113,13 @@
                                         <input value="{{ old('name') }}" required type="text" name="name" placeholder="Full Name" class="form-control">
                                     </div>
                                 </div>
-
-                                <!-- Address -->
-                                <div class="col-md-4">
+                                    <!-- Date of birth -->
+                                    <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="address" class="d-block">
-                                            <i class="icon-location4 mr-2"></i>Current Residence: <span class="text-danger">*</span>
+                                        <label for="brith_date" class="d-block">
+                                            <i class="icon-calendar mr-2"></i>Date of brith:
                                         </label>
-                                        <input value="{{ old('address') }}" class="form-control" placeholder="Address" name="address" type="text" required>
+                                        <input autocomplete="off" name="birth_date" value="{{ old('birth_date') }}" type="text" class="form-control date-pick" placeholder="MM/DD/YY">
                                     </div>
                                 </div>
                             </div>
@@ -222,8 +221,20 @@
                                     </div>
                                 </div>
 
-                                <!-- Passport Photo -->
-                                <div class="col-md-4">                       
+                               
+                                 <!-- Address -->
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="address" class="d-block">
+                                            <i class="icon-location4 mr-2"></i>Current Residence: <span class="text-danger">*</span>
+                                        </label>
+                                        <input value="{{ old('address') }}" class="form-control" placeholder="Address" name="address" type="text" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                 <!-- Passport Photo -->
+                                 <div class="col-md-4">                       
                                     <div class="form-group">
                                         <label class="d-block">
                                             <i class="icon-camera mr-2"></i>Upload Passport Photo:
@@ -232,6 +243,7 @@
                                         <small class="form-text text-muted">Accepted Images: jpeg, png. Max file size 2Mb</small>
                                     </div>
                                 </div>
+
                             </div>
                         </fieldset>
 

@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Carbon\Carbon; // Add Carbon here
+
 
 
 class UserController extends Controller
@@ -76,6 +78,9 @@ class UserController extends Controller
         $data['user_type'] = $user_type;
         $data['photo'] = Qs::getDefaultUserImage();
         $data['code'] = strtoupper(Str::random(10));
+        $data['birth_date'] = $req->birth_date; // Add birth_date 
+
+        $data['birth_date'] = $req->birth_date ? Carbon::parse($req->birth_date)->format('Y-m-d') : null;
 
         $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_teamSA = in_array($user_type, Qs::getTeamSA());
@@ -91,7 +96,7 @@ class UserController extends Controller
             $f = Qs::getFileMetaData($photo);
             $f['name'] = 'photo.' . $f['ext'];
             $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type).$data['code'], $f['name']);
-            $data['photo'] = 'uploads/' . $user_type . '/' . $data['code'] . '/' . $f['name'];
+            $data['photo'] = 'storage/uploads/' . $user_type . '/' . $data['code'] . '/' . $f['name'];
         }
 
         /* Ensure that both username and Email are not blank*/

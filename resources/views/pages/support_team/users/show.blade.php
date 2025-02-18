@@ -6,7 +6,7 @@
         <div class="card shadow-lg border-0">
             <div class="card-body p-4">
                 <div class="profile-image mb-3">
-                    <img src="{{$user->photo }}"
+                    <img src="{{asset($user->photo) }}"
                         alt="User Photo"
                         class="img-fluid rounded-circle border"
                         style="width: 180px; height: 180px; object-fit: cover;">
