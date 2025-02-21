@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Carbon\Carbon; // Add Carbon here
+
 
 
 class UserController extends Controller
@@ -34,18 +36,21 @@ class UserController extends Controller
         $ut2 = $ut->where('level', '>', 2);
 
         $d['user_types'] = Qs::userIsAdmin() ? $ut2 : $ut;
-        $d['states'] = $this->loc->getStates();
+        $d['districts'] = $this->loc->getStates();
         $d['users'] = $this->user->getPTAUsers();
         $d['nationals'] = $this->loc->getAllNationals();
         $d['blood_groups'] = $this->user->getBloodGroups();
+       // dd($d['users']);
+
         return view('pages.support_team.users.index', $d);
+        
     }
 
     public function edit($id)
     {
         $id = Qs::decodeHash($id);
         $d['user'] = $this->user->find($id);
-        $d['states'] = $this->loc->getStates();
+        $d['districts'] = $this->loc->getStates();
         $d['users'] = $this->user->getPTAUsers();
         $d['blood_groups'] = $this->user->getBloodGroups();
         $d['nationals'] = $this->loc->getAllNationals();
@@ -73,6 +78,9 @@ class UserController extends Controller
         $data['user_type'] = $user_type;
         $data['photo'] = Qs::getDefaultUserImage();
         $data['code'] = strtoupper(Str::random(10));
+        $data['birth_date'] = $req->birth_date; // Add birth_date 
+
+        $data['birth_date'] = $req->birth_date ? Carbon::parse($req->birth_date)->format('Y-m-d') : null;
 
         $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_teamSA = in_array($user_type, Qs::getTeamSA());
@@ -88,7 +96,7 @@ class UserController extends Controller
             $f = Qs::getFileMetaData($photo);
             $f['name'] = 'photo.' . $f['ext'];
             $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type).$data['code'], $f['name']);
-            $data['photo'] = asset('storage/' . $f['path']);
+            $data['photo'] = 'storage/uploads/' . $user_type . '/' . $data['code'] . '/' . $f['name'];
         }
 
         /* Ensure that both username and Email are not blank*/
@@ -151,7 +159,7 @@ class UserController extends Controller
             $d2['code'] = $data['username'];
             $this->user->updateStaffRecord(['user_id' => $id], $d2);
         }
-
+        dd($user->toArray());
         return Qs::jsonUpdateOk();
     }
 

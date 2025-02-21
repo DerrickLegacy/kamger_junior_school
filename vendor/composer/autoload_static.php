@@ -7,13 +7,13 @@ namespace Composer\Autoload;
 class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
 {
     public static $files = array (
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
@@ -75,6 +75,7 @@ class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
             'Symfony\\Component\\Routing\\' => 26,
             'Symfony\\Component\\Process\\' => 26,
             'Symfony\\Component\\Mime\\' => 23,
+            'Symfony\\Component\\Mailer\\' => 25,
             'Symfony\\Component\\HttpKernel\\' => 29,
             'Symfony\\Component\\HttpFoundation\\' => 33,
             'Symfony\\Component\\Finder\\' => 25,
@@ -147,7 +148,6 @@ class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
         ),
         'F' => 
         array (
-            'Fruitcake\\Cors\\' => 15,
             'FontLib\\' => 8,
             'Fideloper\\Proxy\\' => 16,
             'Faker\\' => 6,
@@ -190,7 +190,8 @@ class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
         ),
         'A' => 
         array (
-            'Asm89\\Stack\\' => 12,
+            'App\\Models\\' => 11,
+            'App\\Http\\Controllers\\' => 21,
             'App\\' => 4,
         ),
     );
@@ -288,6 +289,10 @@ class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
         'Symfony\\Component\\Mime\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/mime',
+        ),
+        'Symfony\\Component\\Mailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/mailer',
         ),
         'Symfony\\Component\\HttpKernel\\' => 
         array (
@@ -459,10 +464,6 @@ class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
         ),
-        'Fruitcake\\Cors\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/fruitcake/laravel-cors/src',
-        ),
         'FontLib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib',
@@ -571,9 +572,13 @@ class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
         array (
             0 => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src',
         ),
-        'Asm89\\Stack\\' => 
+        'App\\Models\\' => 
         array (
-            0 => __DIR__ . '/..' . '/asm89/stack-cors/src',
+            0 => __DIR__ . '/../..' . '/app/Models',
+        ),
+        'App\\Http\\Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Http/Controllers',
         ),
         'App\\' => 
         array (
@@ -710,8 +715,6 @@ class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
         'App\\Repositories\\TimeTableRepo' => __DIR__ . '/../..' . '/app/Repositories/TimeTableRepo.php',
         'App\\Repositories\\UserRepo' => __DIR__ . '/../..' . '/app/Repositories/UserRepo.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
-        'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
-        'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Barryvdh\\DomPDF\\Facade' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/Facade.php',
         'Barryvdh\\DomPDF\\PDF' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/PDF.php',
@@ -2208,8 +2211,6 @@ class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
         'FontLib\\WOFF\\File' => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib/WOFF/File.php',
         'FontLib\\WOFF\\Header' => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib/WOFF/Header.php',
         'FontLib\\WOFF\\TableDirectoryEntry' => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib/WOFF/TableDirectoryEntry.php',
-        'Fruitcake\\Cors\\CorsServiceProvider' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/CorsServiceProvider.php',
-        'Fruitcake\\Cors\\HandleCors' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/HandleCors.php',
         'GrahamCampbell\\ResultType\\Error' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Error.php',
         'GrahamCampbell\\ResultType\\Result' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Result.php',
         'GrahamCampbell\\ResultType\\Success' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Success.php',
@@ -4773,6 +4774,7 @@ class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
         'PHPUnit\\Metadata\\IgnoreDeprecations' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/IgnoreDeprecations.php',
         'PHPUnit\\Metadata\\IgnoreFunctionForCodeCoverage' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/IgnoreFunctionForCodeCoverage.php',
         'PHPUnit\\Metadata\\IgnoreMethodForCodeCoverage' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/IgnoreMethodForCodeCoverage.php',
+        'PHPUnit\\Metadata\\InvalidAttributeException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/Exception/InvalidAttributeException.php',
         'PHPUnit\\Metadata\\InvalidVersionRequirementException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/Exception/InvalidVersionRequirementException.php',
         'PHPUnit\\Metadata\\Metadata' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/Metadata.php',
         'PHPUnit\\Metadata\\MetadataCollection' => __DIR__ . '/..' . '/phpunit/phpunit/src/Metadata/MetadataCollection.php',
@@ -6553,6 +6555,60 @@ class ComposerStaticInit79cb588e31c7b8be1e6d85a2aecb4dd5
         'Symfony\\Component\\HttpKernel\\RebootableInterface' => __DIR__ . '/..' . '/symfony/http-kernel/RebootableInterface.php',
         'Symfony\\Component\\HttpKernel\\TerminableInterface' => __DIR__ . '/..' . '/symfony/http-kernel/TerminableInterface.php',
         'Symfony\\Component\\HttpKernel\\UriSigner' => __DIR__ . '/..' . '/symfony/http-kernel/UriSigner.php',
+        'Symfony\\Component\\Mailer\\DataCollector\\MessageDataCollector' => __DIR__ . '/..' . '/symfony/mailer/DataCollector/MessageDataCollector.php',
+        'Symfony\\Component\\Mailer\\DelayedEnvelope' => __DIR__ . '/..' . '/symfony/mailer/DelayedEnvelope.php',
+        'Symfony\\Component\\Mailer\\Envelope' => __DIR__ . '/..' . '/symfony/mailer/Envelope.php',
+        'Symfony\\Component\\Mailer\\EventListener\\EnvelopeListener' => __DIR__ . '/..' . '/symfony/mailer/EventListener/EnvelopeListener.php',
+        'Symfony\\Component\\Mailer\\EventListener\\MessageListener' => __DIR__ . '/..' . '/symfony/mailer/EventListener/MessageListener.php',
+        'Symfony\\Component\\Mailer\\EventListener\\MessageLoggerListener' => __DIR__ . '/..' . '/symfony/mailer/EventListener/MessageLoggerListener.php',
+        'Symfony\\Component\\Mailer\\Event\\MessageEvent' => __DIR__ . '/..' . '/symfony/mailer/Event/MessageEvent.php',
+        'Symfony\\Component\\Mailer\\Event\\MessageEvents' => __DIR__ . '/..' . '/symfony/mailer/Event/MessageEvents.php',
+        'Symfony\\Component\\Mailer\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/symfony/mailer/Exception/ExceptionInterface.php',
+        'Symfony\\Component\\Mailer\\Exception\\HttpTransportException' => __DIR__ . '/..' . '/symfony/mailer/Exception/HttpTransportException.php',
+        'Symfony\\Component\\Mailer\\Exception\\IncompleteDsnException' => __DIR__ . '/..' . '/symfony/mailer/Exception/IncompleteDsnException.php',
+        'Symfony\\Component\\Mailer\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/symfony/mailer/Exception/InvalidArgumentException.php',
+        'Symfony\\Component\\Mailer\\Exception\\LogicException' => __DIR__ . '/..' . '/symfony/mailer/Exception/LogicException.php',
+        'Symfony\\Component\\Mailer\\Exception\\RuntimeException' => __DIR__ . '/..' . '/symfony/mailer/Exception/RuntimeException.php',
+        'Symfony\\Component\\Mailer\\Exception\\TransportException' => __DIR__ . '/..' . '/symfony/mailer/Exception/TransportException.php',
+        'Symfony\\Component\\Mailer\\Exception\\TransportExceptionInterface' => __DIR__ . '/..' . '/symfony/mailer/Exception/TransportExceptionInterface.php',
+        'Symfony\\Component\\Mailer\\Exception\\UnsupportedSchemeException' => __DIR__ . '/..' . '/symfony/mailer/Exception/UnsupportedSchemeException.php',
+        'Symfony\\Component\\Mailer\\Header\\MetadataHeader' => __DIR__ . '/..' . '/symfony/mailer/Header/MetadataHeader.php',
+        'Symfony\\Component\\Mailer\\Header\\TagHeader' => __DIR__ . '/..' . '/symfony/mailer/Header/TagHeader.php',
+        'Symfony\\Component\\Mailer\\Mailer' => __DIR__ . '/..' . '/symfony/mailer/Mailer.php',
+        'Symfony\\Component\\Mailer\\MailerInterface' => __DIR__ . '/..' . '/symfony/mailer/MailerInterface.php',
+        'Symfony\\Component\\Mailer\\Messenger\\MessageHandler' => __DIR__ . '/..' . '/symfony/mailer/Messenger/MessageHandler.php',
+        'Symfony\\Component\\Mailer\\Messenger\\SendEmailMessage' => __DIR__ . '/..' . '/symfony/mailer/Messenger/SendEmailMessage.php',
+        'Symfony\\Component\\Mailer\\SentMessage' => __DIR__ . '/..' . '/symfony/mailer/SentMessage.php',
+        'Symfony\\Component\\Mailer\\Test\\Constraint\\EmailCount' => __DIR__ . '/..' . '/symfony/mailer/Test/Constraint/EmailCount.php',
+        'Symfony\\Component\\Mailer\\Test\\Constraint\\EmailIsQueued' => __DIR__ . '/..' . '/symfony/mailer/Test/Constraint/EmailIsQueued.php',
+        'Symfony\\Component\\Mailer\\Test\\TransportFactoryTestCase' => __DIR__ . '/..' . '/symfony/mailer/Test/TransportFactoryTestCase.php',
+        'Symfony\\Component\\Mailer\\Transport' => __DIR__ . '/..' . '/symfony/mailer/Transport.php',
+        'Symfony\\Component\\Mailer\\Transport\\AbstractApiTransport' => __DIR__ . '/..' . '/symfony/mailer/Transport/AbstractApiTransport.php',
+        'Symfony\\Component\\Mailer\\Transport\\AbstractHttpTransport' => __DIR__ . '/..' . '/symfony/mailer/Transport/AbstractHttpTransport.php',
+        'Symfony\\Component\\Mailer\\Transport\\AbstractTransport' => __DIR__ . '/..' . '/symfony/mailer/Transport/AbstractTransport.php',
+        'Symfony\\Component\\Mailer\\Transport\\AbstractTransportFactory' => __DIR__ . '/..' . '/symfony/mailer/Transport/AbstractTransportFactory.php',
+        'Symfony\\Component\\Mailer\\Transport\\Dsn' => __DIR__ . '/..' . '/symfony/mailer/Transport/Dsn.php',
+        'Symfony\\Component\\Mailer\\Transport\\FailoverTransport' => __DIR__ . '/..' . '/symfony/mailer/Transport/FailoverTransport.php',
+        'Symfony\\Component\\Mailer\\Transport\\NativeTransportFactory' => __DIR__ . '/..' . '/symfony/mailer/Transport/NativeTransportFactory.php',
+        'Symfony\\Component\\Mailer\\Transport\\NullTransport' => __DIR__ . '/..' . '/symfony/mailer/Transport/NullTransport.php',
+        'Symfony\\Component\\Mailer\\Transport\\NullTransportFactory' => __DIR__ . '/..' . '/symfony/mailer/Transport/NullTransportFactory.php',
+        'Symfony\\Component\\Mailer\\Transport\\RoundRobinTransport' => __DIR__ . '/..' . '/symfony/mailer/Transport/RoundRobinTransport.php',
+        'Symfony\\Component\\Mailer\\Transport\\SendmailTransport' => __DIR__ . '/..' . '/symfony/mailer/Transport/SendmailTransport.php',
+        'Symfony\\Component\\Mailer\\Transport\\SendmailTransportFactory' => __DIR__ . '/..' . '/symfony/mailer/Transport/SendmailTransportFactory.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\Auth\\AuthenticatorInterface' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/Auth/AuthenticatorInterface.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\Auth\\CramMd5Authenticator' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/Auth/CramMd5Authenticator.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\Auth\\LoginAuthenticator' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/Auth/LoginAuthenticator.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\Auth\\PlainAuthenticator' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/Auth/PlainAuthenticator.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\Auth\\XOAuth2Authenticator' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/Auth/XOAuth2Authenticator.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\EsmtpTransport' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/EsmtpTransport.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\EsmtpTransportFactory' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/EsmtpTransportFactory.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\SmtpTransport' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/SmtpTransport.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\Stream\\AbstractStream' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/Stream/AbstractStream.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\Stream\\ProcessStream' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/Stream/ProcessStream.php',
+        'Symfony\\Component\\Mailer\\Transport\\Smtp\\Stream\\SocketStream' => __DIR__ . '/..' . '/symfony/mailer/Transport/Smtp/Stream/SocketStream.php',
+        'Symfony\\Component\\Mailer\\Transport\\TransportFactoryInterface' => __DIR__ . '/..' . '/symfony/mailer/Transport/TransportFactoryInterface.php',
+        'Symfony\\Component\\Mailer\\Transport\\TransportInterface' => __DIR__ . '/..' . '/symfony/mailer/Transport/TransportInterface.php',
+        'Symfony\\Component\\Mailer\\Transport\\Transports' => __DIR__ . '/..' . '/symfony/mailer/Transport/Transports.php',
         'Symfony\\Component\\Mime\\Address' => __DIR__ . '/..' . '/symfony/mime/Address.php',
         'Symfony\\Component\\Mime\\BodyRendererInterface' => __DIR__ . '/..' . '/symfony/mime/BodyRendererInterface.php',
         'Symfony\\Component\\Mime\\CharacterStream' => __DIR__ . '/..' . '/symfony/mime/CharacterStream.php',

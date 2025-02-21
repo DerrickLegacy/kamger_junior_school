@@ -230,7 +230,7 @@ class Qs
 
     public static function getUploadPath($user_type)
     {
-        return 'uploads/' . $user_type . '/';
+        return 'public/uploads/' . $user_type . '/';
     }
 
     public static function getFileMetaData($file)
@@ -380,4 +380,16 @@ class Qs
 
         return asset('/uploads/profile/' . $profile_picture);
     }
+
+    
+
+
+   //     public static function staff_profile_picture($staff_profile_picture = '')
+     //   {
+       //     if ($staff_profile_picture == '') {
+         //       return asset('/backend/images/avatar.png'); // Default image
+           // }
+        
+            //return asset('storage/public/' . $staff_profile_picture); // Actual image
+        //}
 }
