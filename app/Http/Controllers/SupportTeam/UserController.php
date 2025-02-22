@@ -7,6 +7,8 @@ use App\Http\Requests\UserRequest;
 use App\Repositories\LocationRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\UserRepo;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -159,11 +161,11 @@ class UserController extends Controller
             $d2['code'] = $data['username'];
             $this->user->updateStaffRecord(['user_id' => $id], $d2);
         }
-        dd($user->toArray());
+       
         return Qs::jsonUpdateOk();
     }
 
-    public function show($user_id)
+    public function show($user_id): RedirectResponse|View
     {
         $user_id = Qs::decodeHash($user_id);
         if(!$user_id){return back();}

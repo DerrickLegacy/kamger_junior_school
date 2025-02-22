@@ -32,6 +32,7 @@
     <div class="col-md-8">
         <div class="card shadow-lg border-0">
             <div class="card-body">
+                
                 <ul class="nav nav-tabs mb-3" id="user_tabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="user-name-tab" data-bs-toggle="tab" data-bs-target="#user-name" type="button" role="tab" aria-controls="user-name" aria-selected="true">
@@ -54,6 +55,18 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
+                                <label for="dob" class="form-label">Birthday</label>
+                                <input type="text" id="dob" class="form-control" value="{{ $user->birth_date }}" readonly>
+                            </div>
+
+                            @if($user->nal_id)
+                            <div class="col-md-6 mb-3">
+                                <label for="nationality" class="form-label">Nationality</label>
+                                <input type="text" id="nationality" class="form-control" value="{{ $user->nationality->name }}" readonly>
+                            </div>
+                            @endif
+
+                            <div class="col-md-6 mb-3">
                                 <label for="address" class="form-label">Address</label>
                                 <input type="text" id="address" class="form-control" value="{{ $user->address }}" readonly>
                             </div>
@@ -65,13 +78,6 @@
                             </div>
                             @endif
 
-                            @if($user->username)
-                            <div class="col-md-6 mb-3">
-                                <label for="username" class="form-label">Username</label>
-                                <input type="text" id="username" class="form-control" value="{{ $user->username }}" readonly>
-                            </div>
-                            @endif
-
                             @if($user->phone)
                             <div class="col-md-6 mb-3">
                                 <label for="phone" class="form-label">Phone</label>
@@ -79,38 +85,39 @@
                             </div>
                             @endif
 
+                            @if($user->username)
                             <div class="col-md-6 mb-3">
-                                <label for="dob" class="form-label">Birthday</label>
-                                <input type="text" id="dob" class="form-control" value="{{ $user->dob }}" readonly>
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" id="username" class="form-control" value="{{ $user->username }}" readonly>
                             </div>
+                            @endif
 
-                            @if($user->bg_id)
+                            
+
+                            
+
+                          {{--   @if($user->bg_id)
                             <div class="col-md-6 mb-3">
                                 <label for="blood_group" class="form-label">Blood Group</label>
                                 <input type="text" id="blood_group" class="form-control" value="{{ $user->blood_group->name }}" readonly>
                             </div>
-                            @endif
+                            @endif --}}
 
-                            @if($user->nal_id)
-                            <div class="col-md-6 mb-3">
-                                <label for="nationality" class="form-label">Nationality</label>
-                                <input type="text" id="nationality" class="form-control" value="{{ $user->nationality->name }}" readonly>
-                            </div>
-                            @endif
+                          
 
-                            @if($user->state_id)
+                           {{--  @if($user->state_id)
                             <div class="col-md-6 mb-3">
                                 <label for="state" class="form-label">State</label>
                                 <input type="text" id="state" class="form-control" value="{{ $user->state->name }}" readonly>
                             </div>
-                            @endif
+                            @endif --}}
 
-                            @if($user->lga_id)
+                            {{-- @if($user->lga_id)
                             <div class="col-md-6 mb-3">
                                 <label for="lga" class="form-label">LGA</label>
                                 <input type="text" id="lga" class="form-control" value="{{ $user->lga->name }}" readonly>
                             </div>
-                            @endif
+                            @endif --}}
 
                             @if($user->user_type == 'parent')
                             <div class="col-md-12 mb-3">
@@ -137,10 +144,13 @@
                     </div>
                 </div>
             </div>
-        </div>
+            
+        </div>  
     </div>
-
 </div>
+<button class="btn btn-secondary mt-1 float-right" onclick="window.history.back();">
+    <i class="bi bi-arrow-left"></i> Previous
+</button>
 
 
 {{--User Profile Ends--}}
