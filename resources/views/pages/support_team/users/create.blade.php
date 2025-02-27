@@ -176,6 +176,7 @@
                                 <small class="form-text text-muted">Accepted Images: jpeg, png. Max file size 2Mb</small>
                             </div>
                         </div>
+                        
                     </div>
                 </fieldset>
             </form>
