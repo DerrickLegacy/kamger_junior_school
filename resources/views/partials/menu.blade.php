@@ -21,9 +21,9 @@
             <div class="card-body">
                 <div class="text-center">
                     <div>
-                        <?php echo Auth::user()->photo ?>
+                        
                         <a href="{{ route('my_account') }}">
-                            <img src="{{ Auth::user()->photo }}" width="50" height="50" class="rounded-circle" alt="photo">
+                            <img src="{{Qs::profile_picture(Auth::user()->photo )  }}" width="50" height="50" class="rounded-circle" alt="photo">
                         </a>
                     </div>
 
