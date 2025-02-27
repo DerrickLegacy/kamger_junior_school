@@ -126,7 +126,7 @@
 
                     <!-- District of Origin -->
                     <div class="row">
-                        <div class="col-md-4">
+                  {{--       <div class="col-md-4">
                             <div class="form-group">
                                 <label for="state_id" class="d-block">
                                     <i class="icon-location3 mr-2"></i>District of Origin: <span class="text-danger">*</span>
@@ -138,24 +138,25 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div>  --}}
 
                         <!-- Passport Photo -->
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label class="d-block">
-                                    <i class="icon-camera mr-2"></i>Upload Passport Photo:
-                                </label>
-                                <div class="custom-file">
-                                    <input type="file" name="photo" class="custom-file-input" id="photo" accept="image/*">
-                                    <label class="custom-file-label" for="photo">Choose file</label>
+                        <div class="col-md-8">                      
+                                    <div class="form-group">
+                                        <label class="d-block">
+                                            <i class="icon-camera mr-2"></i>Upload Passport Photo:
+                                        </label>
+                                        <input value="{{ old('photo') }}" accept="image/*" type="file" name="photo" class="form-input-styled" data-fouc>
+                                        <small class="form-text text-muted">Accepted Images: jpeg, png. Max file size 2Mb</small>
+                                    </div>
                                 </div>
-                                <small class="form-text text-muted">Accepted Images: jpeg, png. Max file size 2Mb</small>
-                            </div>
+
                         </div>
                     </div>
                 </fieldset>
-
+                <button class="btn btn-secondary mt-1 float-right" onclick="window.history.back();">
+    <i class="bi bi-arrow-left"></i> Previous
+</button>
     </div>
 
 @endsection

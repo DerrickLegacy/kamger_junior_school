@@ -3,6 +3,7 @@
         <i class="icon-paragraph-justify3"></i>
     </a>
     <div class="page-header-content ">
+
         <div class="">
             <h4>
                 <span class="font-weight-semibold text-dark">@yield('page_title')</span>

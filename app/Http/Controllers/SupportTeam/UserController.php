@@ -7,6 +7,8 @@ use App\Http\Requests\UserRequest;
 use App\Repositories\LocationRepo;
 use App\Repositories\MyClassRepo;
 use App\Repositories\UserRepo;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -45,6 +47,23 @@ class UserController extends Controller
         return view('pages.support_team.users.index', $d);
         
     }
+
+public function create()
+{
+    $ut = $this->user->getAllTypes();
+    $ut2 = $ut->where('level', '>', 2);
+
+    $d['user_types'] = Qs::userIsAdmin() ? $ut2 : $ut;
+    $d['districts'] = $this->loc->getStates();
+    $d['users'] = $this->user->getPTAUsers();
+    $d['nationals'] = $this->loc->getAllNationals();
+    $d['blood_groups'] = $this->user->getBloodGroups();
+   // dd($d['users']);
+
+   
+    // Return the 'users.create' view
+    return view('pages.support_team.users.create',$d);
+}
 
     public function edit($id)
     {
@@ -91,12 +110,14 @@ class UserController extends Controller
         $pass = $req->password ?: $user_type;
         $data['password'] = Hash::make($pass);
 
-        if($req->hasFile('photo')) {
-            $photo = $req->file('photo');
-            $f = Qs::getFileMetaData($photo);
-            $f['name'] = 'photo.' . $f['ext'];
-            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type).$data['code'], $f['name']);
-            $data['photo'] = 'storage/uploads/' . $user_type . '/' . $data['code'] . '/' . $f['name'];
+
+        if ($req->hasFile('photo')) {
+            
+            $file = $req->file('photo');
+            $photo = time() . $file->getClientOriginalName();
+            $file->move(public_path() . "/uploads/profile/", $photo);
+            $sr['photo'] =  $photo;
+            $data['photo'] = $photo;
         }
 
         /* Ensure that both username and Email are not blank*/
@@ -113,8 +134,14 @@ class UserController extends Controller
             $d2['code'] = $staff_id;
             $this->user->createStaffRecord($d2);
         }
-
-        return Qs::jsonStoreOk();
+      //  if ($user_is_teamSA) {
+        //    return redirect()->route('teamSA.dashboard')->with('success', 'User registered successfully!');
+        //} elseif ($user_is_staff) {
+          //  return redirect()->route('staff.dashboard')->with('success', 'Staff registered successfully!');
+        //} else {
+          //  return redirect()->route('default.dashboard')->with('success', 'User registered successfully!');
+        //}
+        return Qs::jsonUpdateOk();
     }
 
     public function update(UserRequest $req, $id)
@@ -142,13 +169,13 @@ class UserController extends Controller
         else {
             $data['username'] = $user->username;
         }
-
-        if($req->hasFile('photo')) {
-            $photo = $req->file('photo');
-            $f = Qs::getFileMetaData($photo);
-            $f['name'] = 'photo.' . $f['ext'];
-            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type).$user->code, $f['name']);
-            $data['photo'] = asset('storage/' . $f['path']);
+        if ($req->hasFile('photo')) {
+            
+            $file = $req->file('photo');
+            $photo = time() . $file->getClientOriginalName();
+            $file->move(public_path() . "/uploads/profile/", $photo);
+            $sr['photo'] =  $photo;
+            $data['photo'] = $photo;
         }
 
         $this->user->update($id, $data);   /* UPDATE USER RECORD */
@@ -159,11 +186,11 @@ class UserController extends Controller
             $d2['code'] = $data['username'];
             $this->user->updateStaffRecord(['user_id' => $id], $d2);
         }
-        dd($user->toArray());
+       
         return Qs::jsonUpdateOk();
     }
 
-    public function show($user_id)
+    public function show($user_id): RedirectResponse|View
     {
         $user_id = Qs::decodeHash($user_id);
         if(!$user_id){return back();}

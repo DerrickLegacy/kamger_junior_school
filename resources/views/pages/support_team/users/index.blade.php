@@ -1,37 +1,39 @@
 @extends('layouts.master')
 @section('page_title', 'Manage Users')
 @section('content')
+<style>
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+            border-radius: 8px; /* Rounded corners */
+        }
+    </style>
+<div class="card">
+    <div class="card-header header-elements-inline">
+        <h6 class="card-title">Manage Users</h6>
+        {!! Qs::getPanelOptions() !!}
+    </div>
 
-    <div class="card">
-        <div class="card-header header-elements-inline">
-            <h6 class="card-title">Manage Users</h6>
-            {!! Qs::getPanelOptions() !!}
+    <div class="card-body">
+        <!-- User Type Selection Dropdown -->
+        <div class="form-group">
+            <label for="userTypeSelect">Select User Type</label>
+            <select id="userTypeSelect" class="form-control">
+                @foreach($user_types as $index => $ut)
+                    <option value="ut-{{ Qs::hash($ut->id) }}" 
+                        {{ strtolower($ut->name) == 'accountant' ? 'selected' : '' }}>
+                        {{ $ut->name }}s
+                    </option>
+                @endforeach
+            </select>
         </div>
 
-        <div class="card-body">
-        <ul class="nav nav-tabs nav-tabs-highlight">
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Manage Users</a>
-        <div class="dropdown-menu dropdown-menu-right">
-        @foreach($user_types as $index => $ut)
-                <a href="#ut-{{ Qs::hash($ut->id) }}" class="dropdown-item {{ $loop->first ? 'active' : '' }}" data-toggle="tab">
-                    {{ $ut->name }}s
-                </a>
-            @endforeach
-        </div>
-    </li>
-    <li class="nav-item">
-        <a href="#new-user" class="nav-link" data-toggle="tab">Create New User</a>
-    </li>
-</ul>
-
-
-            <div class="tab-content">
-                @foreach($user_types as $ut)
-                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="ut-{{Qs::hash($ut->id)}}">
-                <h6>{{ $ut->name }} Users</h6>                       
-                            <table class="table datatable-button-html5-columns">
-                            <thead>
+        <!-- User Type Content Sections -->
+        <div class="tab-content">
+            @foreach($user_types as $ut)
+                <div id="ut-{{ Qs::hash($ut->id) }}" class="user-type-content" style="display: none;">
+                    <h6>{{ $ut->name }} Users</h6>                        
+                    <table class="table datatable-button-html5-columns">
+                        <thead>
                             <tr>
                                 <th>S/N</th>
                                 <th>Photo</th>
@@ -41,15 +43,16 @@
                                 <th>Email</th>
                                 <th>Action</th>
                             </tr>
-                            </thead>
-                            <tbody>
+                        </thead>
+                        <tbody>
                             @foreach($users->where('user_type', $ut->title) as $u)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-    <img class="rounded-circle" style="height: 40px; width: 40px;" src="{{asset($u->photo) }}" alt="photo">
-</td>
-                                   <td>{{ $u->name }}</td>
+                                        <img class="rounded-circle" style="height: 40px; width: 40px;" 
+                                            src="{{ Qs::profile_picture($u->photo) }}" alt="photo">
+                                    </td>
+                                    <td>{{ $u->name }}</td>
                                     <td>{{ $u->username }}</td>
                                     <td>{{ $u->phone }}</td>
                                     <td>{{ $u->email }}</td>
@@ -59,199 +62,64 @@
                                                 <a href="#" class="list-icons-item" data-toggle="dropdown">
                                                     <i class="icon-menu9"></i>
                                                 </a>
-
                                                 <div class="dropdown-menu dropdown-menu-left">
-                                                    {{--View Profile--}}
-                                                    <a href="{{ route('users.show', Qs::hash($u->id)) }}" class="dropdown-item"><i class="icon-eye"></i> View Profile</a>
-                                                    {{--Edit--}}
-                                                    <a href="{{ route('users.edit', Qs::hash($u->id)) }}" class="dropdown-item"><i class="icon-pencil"></i> Edit</a>
-                                                @if(Qs::userIsSuperAdmin())
-
-                                                        <a href="{{ route('users.reset_pass', Qs::hash($u->id)) }}" class="dropdown-item"><i class="icon-lock"></i> Reset password</a>
-                                                        {{--Delete--}}
-                                                        <a id="{{ Qs::hash($u->id) }}" onclick="confirmDelete(this.id)" href="#" class="dropdown-item"><i class="icon-trash"></i> Delete</a>
-                                                        <form method="post" id="item-delete-{{ Qs::hash($u->id) }}" action="{{ route('users.destroy', Qs::hash($u->id)) }}" class="hidden">@csrf @method('delete')</form>
-                                                @endif
-
+                                                    <a href="{{ route('users.show', Qs::hash($u->id)) }}" 
+                                                       class="dropdown-item"><i class="icon-eye"></i> View Profile</a>
+                                                    <a href="{{ route('users.edit', Qs::hash($u->id)) }}" 
+                                                       class="dropdown-item"><i class="icon-pencil"></i> Edit</a>
+                                                    @if(Qs::userIsSuperAdmin())
+                                                        <a href="{{ route('users.reset_pass', Qs::hash($u->id)) }}" 
+                                                           class="dropdown-item"><i class="icon-lock"></i> Reset password</a>
+                                                        <a id="{{ Qs::hash($u->id) }}" onclick="confirmDelete(this.id)" 
+                                                           href="#" class="dropdown-item"><i class="icon-trash"></i> Delete</a>
+                                                        <form method="post" id="item-delete-{{ Qs::hash($u->id) }}" 
+                                                              action="{{ route('users.destroy', Qs::hash($u->id)) }}" 
+                                                              class="hidden">@csrf @method('delete')</form>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @endforeach
-                <!-- Create New User Form -->
-                <div class="tab-pane fade" id="new-user">
-                    <form method="post" enctype="multipart/form-data" class="wizard-form steps-validation ajax-store" action="{{ route('users.store') }}" data-fouc>
-                        @csrf
-                        <h6 class="mb-4">Personal Data</h6>
-                        <fieldset>
-                            <div class="row">
-                                <!-- User Type -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="user_type" class="d-block">
-                                            <i class="icon-user-tie mr-2"></i>Select User: <span class="text-danger">*</span>
-                                        </label>
-                                        <select required data-placeholder="Select User" class="form-control select" name="user_type" id="user_type">
-                                            @foreach($user_types as $ut)
-                                                <option value="{{ Qs::hash($ut->id) }}">{{ $ut->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Full Name -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="name" class="d-block">
-                                            <i class="icon-user mr-2"></i>Full Name: <span class="text-danger">*</span>
-                                        </label>
-                                        <input value="{{ old('name') }}" required type="text" name="name" placeholder="Full Name" class="form-control">
-                                    </div>
-                                </div>
-                                    <!-- Date of birth -->
-                                    <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="brith_date" class="d-block">
-                                            <i class="icon-calendar mr-2"></i>Date of brith:
-                                        </label>
-                                        <input autocomplete="off" name="birth_date" value="{{ old('birth_date') }}" type="text" class="form-control date-pick" placeholder="MM/DD/YY">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <!-- Email -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="email" class="d-block">
-                                            <i class="icon-envelope mr-2"></i>Email Address:
-                                        </label>
-                                        <input value="{{ old('email') }}" type="email" name="email" class="form-control" placeholder="your@email.com">
-                                    </div>
-                                </div>
-
-                                <!-- Username -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="username" class="d-block">
-                                            <i class="icon-user mr-2"></i>Username:
-                                        </label>
-                                        <input value="{{ old('username') }}" type="text" name="username" class="form-control" placeholder="Username">
-                                    </div>
-                                </div>
-
-                                <!-- Phone -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="phone" class="d-block">
-                                            <i class="icon-phone mr-2"></i>Phone:
-                                        </label>
-                                        <input value="{{ old('phone') }}" type="text" name="phone" class="form-control" placeholder="+2341234567">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <!-- Date of Employment -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="emp_date" class="d-block">
-                                            <i class="icon-calendar mr-2"></i>Date of Employment:
-                                        </label>
-                                        <input autocomplete="off" name="emp_date" value="{{ old('emp_date') }}" type="text" class="form-control date-pick" placeholder="Select Date...">
-                                    </div>
-                                </div>
-
-                                <!-- Password -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="password" class="d-block">
-                                            <i class="icon-lock mr-2"></i>Password:
-                                        </label>
-                                        <input id="password" type="password" name="password" class="form-control">
-                                    </div>
-                                </div>
-
-                                <!-- Gender -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="gender" class="d-block">
-                                            <i class="icon-genderless mr-2"></i>Gender: <span class="text-danger">*</span>
-                                        </label>
-                                        <select class="select form-control" id="gender" name="gender" required data-fouc data-placeholder="Choose..">
-                                            <option value=""></option>
-                                            <option {{ (old('gender') == 'Male') ? 'selected' : '' }} value="Male">Male</option>
-                                            <option {{ (old('gender') == 'Female') ? 'selected' : '' }} value="Female">Female</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <!-- Nationality -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="nal_id" class="d-block">
-                                            <i class="icon-flag mr-2"></i>Nationality: <span class="text-danger">*</span>
-                                        </label>
-                                        <select data-placeholder="Choose..." required name="nal_id" id="nal_id" class="select-search form-control">
-                                            <option value=""></option>
-                                            @foreach($nationals as $nal)
-                                            <option {{ (old('nal_id') == $nal->id ? 'selected' : '') }} value="{{ $nal->id }}">{{ $nal->name }}</option>                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- District of Origin -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="state_id" class="d-block">
-                                            <i class="icon-location3 mr-2"></i>District of Origin: <span class="text-danger">*</span>
-                                        </label>
-                                        <select onchange="getLGA(this.value)" required data-placeholder="Choose.." class="select-search form-control" name="state_id" id="state_id">
-                                            <option value=""></option>
-                                            @foreach($districts as $st)
-                                            <option {{ (old('state_id') == $st->id ? 'selected' : '') }} value="{{ $st->id }}">{{ $st->district }}</option>                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                               
-                                 <!-- Address -->
-                                 <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="address" class="d-block">
-                                            <i class="icon-location4 mr-2"></i>Current Residence: <span class="text-danger">*</span>
-                                        </label>
-                                        <input value="{{ old('address') }}" class="form-control" placeholder="Address" name="address" type="text" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                 <!-- Passport Photo -->
-                                 <div class="col-md-4">                       
-                                    <div class="form-group">
-                                        <label class="d-block">
-                                            <i class="icon-camera mr-2"></i>Upload Passport Photo:
-                                        </label>
-                                        <input value="{{ old('photo') }}" accept="image/*" type="file" name="photo" class="form-input-styled" data-fouc>
-                                        <small class="form-text text-muted">Accepted Images: jpeg, png. Max file size 2Mb</small>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </fieldset>
-
-                        
-                    </form>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
+</div>
+
+<!-- JavaScript to Handle Dropdown Change -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let userTypeSelect = document.getElementById("userTypeSelect");
+        let userSections = document.querySelectorAll(".user-type-content");
+
+        // Retrieve last selected value from localStorage, defaulting to the first option
+        let selectedUserType = localStorage.getItem("selectedUserType") || userTypeSelect.value;
+
+        function showSelectedUserType() {
+            userSections.forEach(section => section.style.display = "none");
+
+            let selectedId = userTypeSelect.value;
+            localStorage.setItem("selectedUserType", selectedId); // Store selected value
+            
+            let selectedSection = document.getElementById(selectedId);
+            if (selectedSection) {
+                selectedSection.style.display = "block";
+            }
+        }
+
+        // Set previously selected value from localStorage (if it exists in DOM)
+        if (document.getElementById(selectedUserType)) {
+            userTypeSelect.value = selectedUserType;
+        }
+
+        showSelectedUserType(); // Show correct section based on stored value
+        userTypeSelect.addEventListener("change", showSelectedUserType);
+    });
+</script>
+
 
 @endsection

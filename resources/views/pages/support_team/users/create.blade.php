@@ -1,0 +1,186 @@
+@extends('layouts.master')
+@section('page_title', 'Create New User')
+@section('content')
+<style>
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+            border-radius: 8px; /* Rounded corners */
+        }
+    </style>
+    <!-- Create New User Form -->
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h6 class="card-title">Create New User</h6>
+            {!! Qs::getPanelOptions() !!}
+        </div>
+
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data" class="wizard-form steps-validation ajax-store" action="{{ route('users.store') }}" data-fouc>
+                @csrf
+                <h6 class="mb-4">Personal Data</h6>
+                <fieldset>
+                    <div class="row">
+                        <!-- User Type -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="user_type" class="d-block">
+                                    <i class="icon-user-tie mr-2"></i>Select User: <span class="text-danger">*</span>
+                                </label>
+                                <select required data-placeholder="Select User" class="form-control select" name="user_type" id="user_type">
+                                    @foreach($user_types as $ut)
+                                        <option value="{{ Qs::hash($ut->id) }}">{{ $ut->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Full Name -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="name" class="d-block">
+                                    <i class="icon-user mr-2"></i>Full Name: <span class="text-danger">*</span>
+                                </label>
+                                <input value="{{ old('name') }}" required type="text" name="name" placeholder="Full Name" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <!-- Date of birth -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="birth_date" class="d-block">
+                                    <i class="icon-calendar mr-2"></i>Date of Birth:
+                                </label>
+                                <input autocomplete="off" name="birth_date" value="{{ old('birth_date') }}" type="text" class="form-control date-pick" placeholder="MM/DD/YY">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Email -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="email" class="d-block">
+                                    <i class="icon-envelope mr-2"></i>Email Address:
+                                </label>
+                                <input value="{{ old('email') }}" type="email" name="email" class="form-control" placeholder="your@email.com">
+                            </div>
+                        </div>
+
+                        <!-- Username -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="username" class="d-block">
+                                    <i class="icon-user mr-2"></i>Username:
+                                </label>
+                                <input value="{{ old('username') }}" type="text" name="username" class="form-control" placeholder="Username">
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="phone" class="d-block">
+                                    <i class="icon-phone mr-2"></i>Phone:
+                                </label>
+                                <input value="{{ old('phone') }}" type="text" name="phone" class="form-control" placeholder="+2341234567">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Date of Employment -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="emp_date" class="d-block">
+                                    <i class="icon-calendar mr-2"></i>Date of Employment:
+                                </label>
+                                <input autocomplete="off" name="emp_date" value="{{ old('emp_date') }}" type="text" class="form-control date-pick" placeholder="Select Date...">
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="password" class="d-block">
+                                    <i class="icon-lock mr-2"></i>Password:
+                                </label>
+                                <input id="password" type="password" name="password" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="gender" class="d-block">
+                                    <i class="icon-genderless mr-2"></i>Gender: <span class="text-danger">*</span>
+                                </label>
+                                <select class="select form-control" id="gender" name="gender" required data-fouc data-placeholder="Choose..">
+                                    <option value=""></option>
+                                    <option {{ (old('gender') == 'Male') ? 'selected' : '' }} value="Male">Male</option>
+                                    <option {{ (old('gender') == 'Female') ? 'selected' : '' }} value="Female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Nationality -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="nal_id" class="d-block">
+                                    <i class="icon-flag mr-2"></i>Nationality: <span class="text-danger">*</span>
+                                </label>
+                                <select data-placeholder="Choose..." required name="nal_id" id="nal_id" class="select-search form-control">
+                                    <option value=""></option>
+                                    @foreach($nationals as $nal)
+                                        <option {{ (old('nal_id') == $nal->id ? 'selected' : '') }} value="{{ $nal->id }}">{{ $nal->name }}</option>                                           
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- District of Origin -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="state_id" class="d-block">
+                                    <i class="icon-location3 mr-2"></i>District of Origin: <span class="text-danger">*</span>
+                                </label>
+                                <select onchange="getLGA(this.value)" required data-placeholder="Choose.." class="select-search form-control" name="state_id" id="state_id">
+                                    <option value=""></option>
+                                    @foreach($districts as $st)
+                                        <option {{ (old('state_id') == $st->id ? 'selected' : '') }} value="{{ $st->id }}">{{ $st->district }}</option>                                           
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="address" class="d-block">
+                                    <i class="icon-location4 mr-2"></i>Current Residence: <span class="text-danger">*</span>
+                                </label>
+                                <input value="{{ old('address') }}" class="form-control" placeholder="Address" name="address" type="text" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Passport Photo -->
+                        <div class="col-md-4">                       
+                            <div class="form-group">
+                                <label class="d-block">
+                                    <i class="icon-camera mr-2"></i>Upload Passport Photo:
+                                </label>
+                                <input value="{{ old('photo') }}" accept="image/*" type="file" name="photo" class="form-input-styled" data-fouc>
+                                <small class="form-text text-muted">Accepted Images: jpeg, png. Max file size 2Mb</small>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+@endsection

@@ -40,10 +40,10 @@ class UserRequest extends FormRequest
             'gender' => 'required|string',
             'phone' => 'sometimes|nullable|string|min:6|max:20',
             'phone2' => 'sometimes|nullable|string|min:6|max:20',
-            'email' => 'sometimes|nullable|email|max:100|unique:users,email,'.$this->user,
+            'email' => 'sometimes|nullable|email|max:100|unique:users,email,' . ($this->user ?? 'NULL'),
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
             'address' => 'required|string|min:6|max:120',
-            'state_id' => 'required',
+            'state_id' => 'nullable',
             // 'lga_id' => 'required',
             'nal_id' => 'required',
         ];
