@@ -66,6 +66,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
+                                <th>Term</th>
                                 <th>Amount</th>
                                 <th>Ref_No</th>
                                 <th>Class</th>
@@ -79,6 +80,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $p->title }}</td>
+                                    <td>{{ $p->term }}</td>
                                     <td>{{ $p->amount }}</td>
                                     <td>{{ $p->ref_no }}</td>
                                     <td>{{ $p->my_class_id ? $p->my_class->name : '' }}</td>
@@ -115,6 +117,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
+                                <th>Term</th>
                                 <th>Amount</th>
                                 <th>Ref_No</th>
                                 <th>Class</th>
@@ -128,6 +131,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $p->title }}</td>
+                                    <td>{{ $p->term }}</td>
                                     <td>{{ $p->amount }}</td>
                                     <td>{{ $p->ref_no }}</td>
                                     <td>{{ $p->my_class_id ? $p->my_class->name : '' }}</td>

@@ -85,7 +85,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         /*************** Payments *****************/
         Route::group(['prefix' => 'payments'], function(){
-
             Route::get('manage/{class_id?}', 'PaymentController@manage')->name('payments.manage');
             Route::get('invoice/{id}/{year?}', 'PaymentController@invoice')->name('payments.invoice');
             Route::get('receipts/{id}', 'PaymentController@receipts')->name('payments.receipts');
@@ -94,6 +93,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('select_class', 'PaymentController@select_class')->name('payments.select_class');
             Route::delete('reset_record/{id}', 'PaymentController@reset_record')->name('payments.reset_record');
             Route::post('pay_now/{id}', 'PaymentController@pay_now')->name('payments.pay_now');
+            Route::post('pay_all', 'PaymentController@pay_all')->name('payments.pay_all');
+
+
         });
 
         /*************** Pins *****************/

@@ -18,51 +18,63 @@
             <div class="tab-pane fade show active" id="all-uc">
                 <table class="table datatable-button-html5-columns table-responsive">
                     <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Title</th>
-                        <th>Term</th>
-                        <th>Pay_Ref</th>
-                        <th>Amount</th>
-                        <th>Paid</th>
-                        <th>Balance</th>
-                        <th>Pay Now</th>
-                        <th>Receipt_No</th>
-                        <th>Year</th>
-                        <th>Action</th>
-                        
-                    </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Exempted</th>
+                            <th>Title</th>
+                            <th>Term</th>
+                            <th>Pay_Ref</th>
+                            <th>Amount</th>
+                            <th>Paid</th>
+                            <th>Balance</th>
+                            <th>Pay Now</th>
+                            <th>Receipt_No</th>
+                            <th>Year</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
                     @foreach($uncleared as $uc)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+
+                            <!-- Exempted Checkbox -->
+                            <td>
+                                @php
+                                    $exempted = \App\Models\PaymentExemption::where('student_id', $sr->id)
+                                                                            ->where('payment_id', $uc->payment->id)
+                                                                            ->exists();
+                                @endphp
+                                <input type="checkbox" name="exempted" {{ $exempted ? 'checked' : '' }} disabled>
+                            </td>
+                            
                             <td>{{ $uc->payment->title }}</td>
                             <td>{{ $uc->payment->term }}</td>
                             <td>{{ $uc->payment->ref_no }}</td>
-
                             {{--Amount--}}
                             <td class="font-weight-bold" id="amt-{{ Qs::hash($uc->id) }}" data-amount="{{ $uc->payment->amount }}">{{ $uc->payment->amount }}</td>
-
                             {{--Amount Paid--}}
                             <td id="amt_paid-{{ Qs::hash($uc->id) }}" data-amount="{{ $uc->amt_paid ?: 0 }}" class="text-blue font-weight-bold">{{ $uc->amt_paid ?: '0.00' }}</td>
-
                             {{--Balance--}}
                             <td id="bal-{{ Qs::hash($uc->id) }}" class="text-danger font-weight-bold">{{ $uc->balance ?: $uc->payment->amount }}</td>
 
-                            {{--Pay Now Form--}}
                             <td>
-                                <form id="{{ Qs::hash($uc->id) }}" method="post" class="ajax-pay" action="{{ route('payments.pay_now', Qs::hash($uc->id)) }}">
-                                    @csrf
-                             <div class="row">
-                                 <div class="col-md-7">
-                                     <input min="1" max="{{ $uc->balance ?: $uc->payment->amount }}" id="val-{{ Qs::hash($uc->id) }}" class="form-control" required placeholder="Pay Now" title="Pay Now" name="amt_paid" type="number">
-                                 </div>
-                                 <div class="col-md-5">
-                                     <button data-text="Pay" class="btn btn-danger" type="submit">Pay <i class="icon-paperplane ml-2"></i></button>
-                                 </div>
-                             </div>
-                                </form>
+                                @if(!$exempted)
+                                {{--Pay Now Form--}}
+                                    <form id="{{ Qs::hash($uc->id) }}" method="post" class="ajax-pay" action="{{ route('payments.pay_now', Qs::hash($uc->id)) }}">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <input min="1" max="{{ $uc->balance ?: $uc->payment->amount }}" id="val-{{ Qs::hash($uc->id) }}" class="form-control" required placeholder="Pay Now" title="Pay Now" name="amt_paid" type="number">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <button data-text="Pay" class="btn btn-danger" type="submit">Pay <i class="icon-paperplane ml-2"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                @else
+                                    <span class="badge badge-success">Exempted</span>
+                                @endif
                             </td>
                             {{--Receipt No--}}
                             <td>{{ $uc->ref_no }}</td>
@@ -91,6 +103,7 @@
                                     </div>
                                 </div>
                             </td>
+        
                         </tr>
                     @endforeach
                     </tbody>
@@ -241,6 +254,28 @@
         });
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('tr').forEach(function (row) {
+        let exemptedCheckbox = row.querySelector('input[name="exempted"]');
+        if (exemptedCheckbox && exemptedCheckbox.checked) {
+            let balanceCell = row.querySelector('[id^="bal-"]');
+            if (balanceCell) {
+                balanceCell.textContent = '0.00';
+            }
+
+            let payButton = row.querySelector('.btn-danger');
+            let payInput = row.querySelector('input[name="amt_paid"]');
+            if (payButton && payInput) {
+                payButton.disabled = true;
+                payInput.disabled = true;
+            }
+        }
+    });
+});
+</script>
+
 
 
 @endsection

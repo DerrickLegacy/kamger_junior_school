@@ -21,6 +21,19 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="term" class="col-lg-3 col-form-label font-weight-semibold">Term</label>
+                            <div class="col-lg-9">
+                                <select class="form-control select-search" name="term" id="term">
+                                    <option value="">All Terms</option>
+                                    <option value="Term 1" {{ old('title') == 'Term 1' ? 'selected' : '' }}>Term 1</option>
+                                    <option value="Term 2" {{ old('title') == 'Term 2' ? 'selected' : '' }}>Term 2</option>
+                                    <option value="Term 3" {{ old('title') == 'Term 3' ? 'selected' : '' }}>Term 3</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
                             <label for="my_class_id" class="col-lg-3 col-form-label font-weight-semibold">Class </label>
                             <div class="col-lg-9">
                                 <select class="form-control select-search" name="my_class_id" id="my_class_id">
