@@ -180,7 +180,13 @@
         td_bal.text(''+bal);
         td_amt_paid.text(''+amt_paid).data('amount', ''+amt_paid);
         input.attr('max', bal);
-        bal < 1 ? $('#'+form_id).fadeOut('slow').remove() : '';
+       // Hide form if balance is cleared
+        if (bal < 1) {
+            $('#'+form_id).fadeOut('slow').remove();
+        }
+
+        // **Update total balance**
+        updateTotalBalance();
     });
 
     $('form.ajax-store').on('submit', function(ev){

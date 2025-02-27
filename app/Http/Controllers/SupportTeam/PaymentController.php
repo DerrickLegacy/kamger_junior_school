@@ -38,6 +38,17 @@ class PaymentController extends Controller
         return view('pages.support_team.payments.index', $d);
     }
 
+    public function payAll(Request $request)
+    {
+        $totalAmount = $request->input('total_amount');
+
+        // Process payment logic here (e.g., update database records)
+        // Assuming payments get cleared in `completed_payments` table
+
+        return response()->json(['success' => true]);
+    }
+
+
     public function show($year)
     {
         $d['payments'] = $p = $this->pay->getPayment(['year' => $year])->get();
@@ -152,6 +163,41 @@ class PaymentController extends Controller
         $this->pay->createReceipt($d2);
         return Qs::jsonUpdateOk();
     }
+    public function pay_all(Request $req)
+{
+    $this->validate($req, [
+        'amt_paid' => 'required|numeric'
+    ]);
+
+    $totalAmount = $req->amt_paid;
+
+    // You need to get all the payments that have outstanding balances and update them
+    $records = $this->pay->getUnclearedRecords(); // Fetch all records with outstanding balances
+
+    $totalPaid = 0;
+    foreach ($records as $pr) {
+        $payment = $pr->payment;
+        $amt_paid = $pr->amt_paid + $totalAmount;
+        $balance = $payment->amount - $amt_paid;
+        $paid = ($balance < 1) ? 1 : 0;
+
+        // Update each payment record with the new values
+        $this->pay->updateRecord($pr->id, [
+            'amt_paid' => $amt_paid,
+            'balance' => $balance,
+            'paid' => $paid,
+        ]);
+
+        // Ensure you subtract from totalAmount for each record
+        $totalAmount -= $pr->balance;
+
+        if ($totalAmount <= 0) break;
+    }
+
+    // Return a success response
+    return response()->json(['success' => true]);
+}
+
 
     public function manage($class_id = NULL)
     {

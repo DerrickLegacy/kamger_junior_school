@@ -10,6 +10,12 @@
 
     <title> @yield('page_title') | {{ config('app.name') }} </title>
 
+    <style>
+        input[type="number"] {
+            pointer-events: auto !important;
+        }
+    </style>
+
     @include('partials.inc_top')
 </head>
 
