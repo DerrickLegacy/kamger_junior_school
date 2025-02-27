@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         /*************** Users *****************/
         Route::group(['prefix' => 'users'], function(){
+            Route::get('create', 'UserController@create')->name('users.create');
+            Route::post('store', 'UserController@store')->name('users.store');
             Route::get('reset_pass/{id}', 'UserController@reset_pass')->name('users.reset_pass');
         });
 

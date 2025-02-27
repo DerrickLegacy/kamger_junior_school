@@ -129,12 +129,18 @@
                 </li>
                 @endif
 
+               {{-- Manage Users --}}
                 @if(Qs::userIsTeamSA())
-                {{--Manage Users--}}
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['users.index', 'users.show', 'users.edit']) ? 'active' : '' }}"><i class="icon-users4"></i> <span> Users</span></a>
+                <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['users.index', 'users.create', 'users.edit', 'users.show']) ? 'nav-item-expanded nav-item-open' : '' }}">
+                    <a href="#" class="nav-link"><i class="icon-users4"></i> <span> Users</span></a>
+                    <ul class="nav nav-group-sub" data-submenu-title="Manage Users">
+                        <li class="nav-item"><a href="{{ route('users.create') }}" class="nav-link {{ Route::is('users.create') ? 'active' : '' }}">Create User</a></li>
+                        <li class="nav-item"><a href="{{ route('users.index') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['users.index', 'users.edit', 'users.show']) ? 'active' : '' }}">Manage Users</a></li>
+                    </ul>
                 </li>
+                @endif
 
+                @if(Qs::userIsTeamSA())
                 {{--Manage Classes--}}
                 <li class="nav-item">
                     <a href="{{ route('classes.index') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['classes.index','classes.edit']) ? 'active' : '' }}"><i class="icon-windows2"></i> <span> Classes</span></a>

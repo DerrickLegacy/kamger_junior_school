@@ -154,7 +154,9 @@
                         </div>
                     </div>
                 </fieldset>
-
+                <button class="btn btn-secondary mt-1 float-right" onclick="window.history.back();">
+    <i class="bi bi-arrow-left"></i> Previous
+</button>
     </div>
 
 @endsection
